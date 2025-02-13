@@ -9,6 +9,8 @@ import com.librarymanagement.user.domian.implementations.UserReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class BookService {
@@ -28,9 +30,17 @@ public class BookService {
         return new GetBookHttpResponse(book.getId(), book.getTitle(), book.getAuthor(), book.getPublisher());
     }
 
-    public void updateBook(Long bookId, String title, String author, String publisher) {
+    public void updateBook(Long bookId, String title, String author, String publisher, Long userId) {
+        User user = userReader.readById(userId);
         Book book = bookReader.readById(bookId);
         book.updateInfo(title, author, publisher);
+        bookWriter.write(book);
+    }
+
+    public void deleteBook(Long bookId, Long userId) {
+        User user = userReader.readById(userId);
+        Book book = bookReader.readById(bookId);
+        book.mockDelete(LocalDateTime.now());
         bookWriter.write(book);
     }
 }

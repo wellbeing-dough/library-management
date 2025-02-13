@@ -38,9 +38,20 @@ public class BookController {
 
     @Operation(summary = "도서 수정")
     @PutMapping("/v1/books")
+    @Authenticated
     public ResponseEntity<HttpStatus> updateBook(@Valid @RequestBody updateBookHttpRequest request,
                                                  @UserIdentifier Long userId) {
-        bookService.updateBook(request.getBookId(), request.getTitle(), request.getAuthor(), request.getPublisher());
+        bookService.updateBook(request.getBookId(), request.getTitle(), request.getAuthor(), request.getPublisher(), userId);
         return ResponseEntity.ok().build();
     }
+
+    @Operation(summary = "도서 삭제")
+    @DeleteMapping("/v1/books/{book-id}")
+    @Authenticated
+    public ResponseEntity<HttpStatus> deleteBook(@PathVariable("book-id") Long bookId,
+                                                 @UserIdentifier Long userId) {
+        bookService.deleteBook(bookId, userId);
+        return ResponseEntity.noContent().build();
+    }
+
 }

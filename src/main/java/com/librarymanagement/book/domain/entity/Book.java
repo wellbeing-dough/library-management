@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,9 +26,15 @@ public class Book extends BaseEntity {
 
     private String publisher;
 
+    private LocalDateTime deletedAt;
+
     public void updateInfo(String title, String author, String publisher) {
         this.title = title;
         this.author = author;
         this.publisher = publisher;
+    }
+
+    public void mockDelete(LocalDateTime now) {
+        this.deletedAt = now;
     }
 }
