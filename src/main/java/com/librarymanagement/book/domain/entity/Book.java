@@ -1,4 +1,4 @@
-package com.librarymanagement.user.domian.entity;
+package com.librarymanagement.book.domain.entity;
 
 import com.librarymanagement.common.domain.BaseEntity;
 import jakarta.persistence.*;
@@ -11,17 +11,17 @@ import org.hibernate.annotations.Where;
 @Builder
 @AllArgsConstructor
 @Where(clause = "deleted_at IS NULL")
-@Table(name = "users")
-public class User extends BaseEntity {
+@Table(name = "book")
+public class Book extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String email;
+    private String title;
 
-    private String password;
+    private String author;
 
-    private String nickname;
+    private String publisher;
 
 }

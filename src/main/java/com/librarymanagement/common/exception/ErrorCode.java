@@ -12,12 +12,14 @@ public enum ErrorCode {
     USER_EMAIL_NOT_FOUND_ERROR(404, "0102", "해당 이메일을 갖는 유저가 없습니다."),
     INVALID_PASSWORD_ERROR(401, "0103", "비밀번호가 잘못되었습니다."),
 
-    AUTHORIZATION_HEADER_IS_NULL(401, "0400", "헤더에 인증 정보가 없습니다."),
-    HEADER_TYPE_IS_NOT_BEARER(404, "0401", "헤더 타입이 Bearer가 아닙니다."),
+    AUTHORIZATION_HEADER_IS_NULL_ERROR(401, "0400", "헤더에 인증 정보가 없습니다."),
+    HEADER_TYPE_IS_NOT_BEARER_ERROR(404, "0401", "헤더 타입이 Bearer가 아닙니다."),
     EXPIRED_TOKEN_ERROR(401, "0402", "토큰이 만료되었습니다."),
     INVALID_TOKEN_ERROR(401, "0403", "유효하지 않은 토큰입니다."),
 
-    INVALID_INPUT_VALUE(400, "0500", "입력값이 올바르지 않습니다"),
+    INVALID_INPUT_VALUE_ERROR(400, "0500", "입력값이 올바르지 않습니다."),
+
+    BOOK_NOT_FOUND_ERROR(404, "0601", "해당 식별자를 갖는 책이 존재하지 않습니다.")
     ;
 
     private final int status;

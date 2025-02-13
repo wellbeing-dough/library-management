@@ -6,11 +6,11 @@ import com.librarymanagement.user.exception.UserNotFoundException;
 import com.librarymanagement.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserReader {
 
     private final UserRepository userRepository;
