@@ -29,7 +29,8 @@ public class BookService {
 
     public GetBookHttpResponse getBookInfo(Long bookId) {
         Book book = bookReader.readById(bookId);
-        return new GetBookHttpResponse(book.getId(), book.getTitle(), book.getAuthor(), book.getPublisher());
+        return new GetBookHttpResponse(book.getId(), book.getTitle(), book.getAuthor(), book.getPublisher(),
+                book.getLoanStatus());
     }
 
     public void updateBook(Long bookId, String title, String author, String publisher, Long userId) {
