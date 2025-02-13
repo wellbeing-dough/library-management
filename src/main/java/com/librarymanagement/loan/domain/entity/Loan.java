@@ -21,8 +21,14 @@ public class Loan {
 
     private Long bookId;
 
+    private Integer penalty;
+
     private LocalDateTime dueDate;
 
     private LocalDateTime returnDate;
 
+    public void updateWhenReturn(Integer delayPenalty) {
+        this.returnDate = LocalDateTime.now();
+        this.penalty = delayPenalty;
+    }
 }

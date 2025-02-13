@@ -27,4 +27,8 @@ public class LoanWriter {
                 .dueDate(dueDate)
                 .build();
     }
+
+    public void write(Loan loan) {
+        loanRepository.save(loan);
+    }
 }

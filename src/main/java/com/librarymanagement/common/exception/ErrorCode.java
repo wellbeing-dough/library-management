@@ -21,7 +21,9 @@ public enum ErrorCode {
 
     BOOK_NOT_FOUND_ERROR(404, "0601", "해당 식별자를 갖는 책이 존재하지 않습니다."),
 
-    ALREADY_BORROWED_ERROR(409, "0700", "해당 도서는 이미 대출 중입니다"),
+    ALREADY_BORROWED_ERROR(409, "0700", "해당 도서는 이미 대출 중입니다."),
+    ALREADY_RETURNED_ERROR(409, "0701", "해당 도서는 이미 반납 되었습니다."),
+    LOAN_NOT_FOUND_ERROR(404, "0702", "해당 식별자를 갖는 대출 정보가 없습니다.")
     ;
 
     private final int status;

@@ -7,6 +7,6 @@ import java.util.Optional;
 
 @Repository
 public interface LoanRepositoryQueryDsl {
-    Optional<Loan> findOptionalByNonReturn(Long bookId);
+    Optional<Loan> findNonReturnOptionalByBookId(Long bookId);
 
 }

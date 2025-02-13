@@ -1,6 +1,8 @@
 package com.librarymanagement.loan.domain.implementations;
 
+import com.librarymanagement.common.exception.ErrorCode;
 import com.librarymanagement.loan.domain.entity.Loan;
+import com.librarymanagement.loan.exception.LoanNotFoundException;
 import com.librarymanagement.loan.repository.LoanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,7 +17,17 @@ public class LoanReader {
 
     private final LoanRepository loanRepository;
 
-    public Optional<Loan> readOptionalByNonReturn(Long bookId) {
-        return loanRepository.findOptionalByNonReturn(bookId);
+    public Optional<Loan> readNonReturnOptionalByBookId(Long bookId) {
+        return loanRepository.findNonReturnOptionalByBookId(bookId);
+    }
+
+    public Loan readByBookIdAndUserId(Long bookId, Long userId) {
+        return loanRepository.findByBookIdAndUserId(bookId, userId)
+                .orElseThrow(() ->
+                        new LoanNotFoundException(
+                                ErrorCode.LOAN_NOT_FOUND_ERROR,
+                                ErrorCode.LOAN_NOT_FOUND_ERROR.getStatusMessage()
+                        )
+                );
     }
 }

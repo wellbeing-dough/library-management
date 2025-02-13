@@ -16,7 +16,7 @@ public class LoanRepositoryQueryDslImpl implements LoanRepositoryQueryDsl {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Optional<Loan> findOptionalByNonReturn(Long bookId) {
+    public Optional<Loan> findNonReturnOptionalByBookId(Long bookId) {
 
         Loan queryData = jpaQueryFactory
                 .selectFrom(loan)
