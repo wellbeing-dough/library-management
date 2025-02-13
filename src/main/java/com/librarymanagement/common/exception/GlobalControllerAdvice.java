@@ -30,7 +30,7 @@ public class GlobalControllerAdvice {
             validationErrors.put(fieldName, errorMessage);
         });
 
-        ErrorCode errorCode = ErrorCode.INVALID_INPUT_VALUE;
+        ErrorCode errorCode = ErrorCode.INVALID_INPUT_VALUE_ERROR;
         String detailedErrorMessage = validationErrors.toString();
 
         return ResponseEntity.status(errorCode.getStatus())

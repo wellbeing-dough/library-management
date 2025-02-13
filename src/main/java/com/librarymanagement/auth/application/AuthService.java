@@ -26,14 +26,14 @@ public class AuthService {
         log.info("*******header : {}", header);
         if (header == null) {
             throw new AuthenticationException(
-                    ErrorCode.AUTHORIZATION_HEADER_IS_NULL,
-                    ErrorCode.AUTHORIZATION_HEADER_IS_NULL.getStatusMessage()
+                    ErrorCode.AUTHORIZATION_HEADER_IS_NULL_ERROR,
+                    ErrorCode.AUTHORIZATION_HEADER_IS_NULL_ERROR.getStatusMessage()
             );
         }
         if (!header.startsWith(BEARER)) {
             throw new AuthenticationException(
-                    ErrorCode.HEADER_TYPE_IS_NOT_BEARER,
-                    ErrorCode.HEADER_TYPE_IS_NOT_BEARER.getStatusMessage()
+                    ErrorCode.HEADER_TYPE_IS_NOT_BEARER_ERROR,
+                    ErrorCode.HEADER_TYPE_IS_NOT_BEARER_ERROR.getStatusMessage()
             );
         }
     }

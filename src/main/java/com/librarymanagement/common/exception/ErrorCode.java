@@ -19,7 +19,9 @@ public enum ErrorCode {
 
     INVALID_INPUT_VALUE_ERROR(400, "0500", "입력값이 올바르지 않습니다."),
 
-    BOOK_NOT_FOUND_ERROR(404, "0601", "해당 식별자를 갖는 책이 존재하지 않습니다.")
+    BOOK_NOT_FOUND_ERROR(404, "0601", "해당 식별자를 갖는 책이 존재하지 않습니다."),
+
+    ALREADY_BORROWED_ERROR(409, "0700", "해당 도서는 이미 대출 중입니다"),
     ;
 
     private final int status;
