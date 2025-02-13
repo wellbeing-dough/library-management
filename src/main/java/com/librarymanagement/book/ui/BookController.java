@@ -4,11 +4,13 @@ import com.librarymanagement.book.application.BookService;
 import com.librarymanagement.book.ui.dto.request.CreateBookHttpRequest;
 import com.librarymanagement.book.ui.dto.request.updateBookHttpRequest;
 import com.librarymanagement.book.ui.dto.response.GetBookHttpResponse;
+import com.librarymanagement.book.ui.dto.response.GetBookInfoHttpResponse;
 import com.librarymanagement.common.interceptor.annotation.Authenticated;
 import com.librarymanagement.common.resolver.annotation.UserIdentifier;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,13 +28,14 @@ public class BookController {
     @Authenticated
     public ResponseEntity<HttpStatus> createBook(@Valid @RequestBody CreateBookHttpRequest request,
                                                  @UserIdentifier Long userId) {
-        Long bookId = bookService.createBook(request.getTitle(), request.getAuthor(), request.getPublisher(), userId);
+        Long bookId = bookService.createBook(request.getTitle(), request.getAuthor(), request.getPublisher(),
+                request.getPublishedAt(), userId);
         return ResponseEntity.created(URI.create("/v1/books/" + bookId)).build();
     }
 
     @Operation(summary = "도서 단건 조회")
     @GetMapping("/v1/books/{book-id}")
-    public ResponseEntity<GetBookHttpResponse> getBookInfo(@PathVariable("book-id") Long bookId) {
+    public ResponseEntity<GetBookInfoHttpResponse> getBookInfo(@PathVariable("book-id") Long bookId) {
         return ResponseEntity.ok().body(bookService.getBookInfo(bookId));
     }
 
@@ -53,5 +56,29 @@ public class BookController {
         bookService.deleteBook(bookId, userId);
         return ResponseEntity.noContent().build();
     }
+
+//    @Operation(summary = "이름으로 도서 검색 (저자명 또는 출판사명)")
+//    @GetMapping("/v1/books/name")
+//    public ResponseEntity<Slice<GetBookHttpResponse>> searchBooksByName(
+//            @RequestParam("name") String name,
+//            @RequestParam("page") int page,
+//            @RequestParam("size") int size,
+//            @RequestParam("sort-by") SortByType
+//    ) {
+//        List<GetBookInfoHttpResponse> books = bookService.searchBooksByName(name);
+//        return ResponseEntity.ok(books);
+//    }
+//
+//    @Operation(summary = "제목으로 도서 검색")
+//    @GetMapping("/v1/books/title")
+//    public ResponseEntity<Slice<GetBookHttpResponse>> searchBooksByTitle(
+//            @RequestParam("title") String title,
+//            @RequestParam("page") int page,
+//            @RequestParam("size") int size
+//    ) {
+//        List<GetBookInfoHttpResponse> books = bookService.searchBooksByTitle(title);
+//        return ResponseEntity.ok(books);
+//    }
+
 
 }

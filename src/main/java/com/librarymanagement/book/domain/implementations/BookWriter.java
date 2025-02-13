@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Component
 @RequiredArgsConstructor
 @Transactional
@@ -15,16 +17,17 @@ public class BookWriter {
     private final BookRepository bookRepository;
 
 
-    public Book createBook(String title, String author, String publisher) {
-        Book book = createBookEntity(title, author, publisher);
+    public Book createBook(String title, String author, String publisher, LocalDateTime publishedAt) {
+        Book book = createBookEntity(title, author, publisher, publishedAt);
         return bookRepository.save(book);
     }
 
-    private Book createBookEntity(String title, String author, String publisher) {
+    private Book createBookEntity(String title, String author, String publisher, LocalDateTime publishedAt) {
         return Book.builder()
                 .title(title)
                 .author(author)
                 .publisher(publisher)
+                .publishedAt(publishedAt)
                 .loanStatus(LoanStatus.AVAILABLE)
                 .build();
     }

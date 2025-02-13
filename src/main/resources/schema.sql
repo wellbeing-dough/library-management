@@ -22,6 +22,7 @@ CREATE TABLE book
     publisher               VARCHAR(50)          NOT    NULL,
     loan_status             varchar(50)          NOT    NULL,
     deleted_at              TIMESTAMP                   NULL,
+    published_at            TIMESTAMP            NOT    NULL,
     created_date            TIMESTAMP            NOT    NULL,
     updated_date            TIMESTAMP            NOT    NULL,
     PRIMARY KEY (id)

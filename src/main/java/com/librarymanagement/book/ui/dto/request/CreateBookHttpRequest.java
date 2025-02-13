@@ -2,9 +2,12 @@ package com.librarymanagement.book.ui.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
@@ -25,4 +28,7 @@ public class CreateBookHttpRequest {
     @Size(min = 1, max = 50, message = "출판사 이름은 1자 이상 50자 이하로 입력해주세요")
     private String publisher;
 
+    @Schema(description = "출판일", example = "")
+    @NotNull(message = "출판일은 필수 입니다")
+    private LocalDateTime publishedAt;
 }
