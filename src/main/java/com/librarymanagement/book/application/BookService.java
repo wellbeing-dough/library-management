@@ -2,6 +2,7 @@ package com.librarymanagement.book.application;
 
 import com.librarymanagement.book.domain.entity.Book;
 import com.librarymanagement.book.domain.implementations.BookReader;
+import com.librarymanagement.book.domain.implementations.BookValidator;
 import com.librarymanagement.book.domain.implementations.BookWriter;
 import com.librarymanagement.book.ui.dto.response.GetBookHttpResponse;
 import com.librarymanagement.user.domian.entity.User;
@@ -18,6 +19,7 @@ public class BookService {
     private final BookWriter bookWriter;
     private final UserReader userReader;
     private final BookReader bookReader;
+    private final BookValidator bookValidator;
 
     public Long createBook(String title, String author, String publisher, Long userId) {
         User user = userReader.readById(userId);
@@ -40,6 +42,7 @@ public class BookService {
     public void deleteBook(Long bookId, Long userId) {
         User user = userReader.readById(userId);
         Book book = bookReader.readById(bookId);
+        bookValidator.isPossibleToDelete(book);
         book.mockDelete(LocalDateTime.now());
         bookWriter.write(book);
     }

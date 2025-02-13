@@ -1,5 +1,6 @@
 package com.librarymanagement.book.domain.entity;
 
+import com.librarymanagement.book.domain.emuns.LoanStatus;
 import com.librarymanagement.common.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,6 +27,9 @@ public class Book extends BaseEntity {
 
     private String publisher;
 
+    @Enumerated(EnumType.STRING)
+    private LoanStatus loanStatus;
+
     private LocalDateTime deletedAt;
 
     public void updateInfo(String title, String author, String publisher) {
@@ -36,5 +40,9 @@ public class Book extends BaseEntity {
 
     public void mockDelete(LocalDateTime now) {
         this.deletedAt = now;
+    }
+
+    public void updateLoanStatus(LoanStatus loanStatus) {
+        this.loanStatus = loanStatus;
     }
 }

@@ -19,11 +19,13 @@ public enum ErrorCode {
 
     INVALID_INPUT_VALUE_ERROR(400, "0500", "입력값이 올바르지 않습니다."),
 
-    BOOK_NOT_FOUND_ERROR(404, "0601", "해당 식별자를 갖는 책이 존재하지 않습니다."),
+    BOOK_NOT_FOUND_ERROR(404, "0600", "해당 식별자를 갖는 책이 존재하지 않습니다."),
+    BOOK_CAN_NOT_BE_DELETE_ERROR(409, "0601", "해당 도서는 삭제할 수 없습니다"),
 
     ALREADY_BORROWED_ERROR(409, "0700", "해당 도서는 이미 대출 중입니다."),
     ALREADY_RETURNED_ERROR(409, "0701", "해당 도서는 이미 반납 되었습니다."),
-    LOAN_NOT_FOUND_ERROR(404, "0702", "해당 식별자를 갖는 대출 정보가 없습니다.")
+    LOAN_NOT_FOUND_ERROR(404, "0702", "해당 식별자를 갖는 대출 정보가 없습니다."),
+    USER_DID_NOT_BORROW_BOOK_ERROR(400, "0703", "해당 도서는 해당 유저가 빌린게 아닙니다.")
     ;
 
     private final int status;

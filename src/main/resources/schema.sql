@@ -8,9 +8,9 @@ CREATE TABLE users
     email                   VARCHAR(55)          NOT     NULL,
     nickname                VARCHAR(20)          NOT     NULL,
     password                VARCHAR(100)         NOT     NULL,
-    deleted_at              TIMESTAMP            DEFAULT NULL,
-    created_date            TIMESTAMP            DEFAULT NULL,
-    updated_date            TIMESTAMP            DEFAULT NULL,
+    deleted_at              TIMESTAMP                    NULL,
+    created_date            TIMESTAMP            NOT     NULL,
+    updated_date            TIMESTAMP            NOT     NULL,
     PRIMARY KEY (id)
 );
 
@@ -20,9 +20,10 @@ CREATE TABLE book
     title                   VARCHAR(100)         NOT    NULL,
     author                  VARCHAR(50)          NOT    NULL,
     publisher               VARCHAR(50)          NOT    NULL,
-    deleted_at              TIMESTAMP            DEFAULT NULL,
-    created_date            TIMESTAMP            DEFAULT NULL,
-    updated_date            TIMESTAMP            DEFAULT NULL,
+    loan_status             varchar(50)          NOT    NULL,
+    deleted_at              TIMESTAMP                   NULL,
+    created_date            TIMESTAMP            NOT    NULL,
+    updated_date            TIMESTAMP            NOT    NULL,
     PRIMARY KEY (id)
 );
 
@@ -32,10 +33,10 @@ CREATE TABLE loan
     user_id                 BIGINT               NOT    NULL,
     book_id                 BIGINT               NOT    NULL,
     penalty                 int                         NULL,
-    due_date                TIMESTAMP            DEFAULT NULL,
-    deleted_at              TIMESTAMP            DEFAULT NULL,
-    return_date             TIMESTAMP            DEFAULT NULL,
-    created_date            TIMESTAMP            DEFAULT NULL,
-    updated_date            TIMESTAMP            DEFAULT NULL,
+    due_date                TIMESTAMP            NOT    NULL,
+    deleted_at              TIMESTAMP                   NULL,
+    return_date             TIMESTAMP                   NULL,
+    created_date            TIMESTAMP            NOT    NULL,
+    updated_date            TIMESTAMP            NOT    NULL,
     PRIMARY KEY (id)
 );

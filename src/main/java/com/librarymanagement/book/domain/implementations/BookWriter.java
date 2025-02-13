@@ -1,5 +1,6 @@
 package com.librarymanagement.book.domain.implementations;
 
+import com.librarymanagement.book.domain.emuns.LoanStatus;
 import com.librarymanagement.book.domain.entity.Book;
 import com.librarymanagement.book.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class BookWriter {
                 .title(title)
                 .author(author)
                 .publisher(publisher)
+                .loanStatus(LoanStatus.AVAILABLE)
                 .build();
     }
 
