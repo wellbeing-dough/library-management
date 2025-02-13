@@ -23,21 +23,15 @@ public class JwtProvider {
     @Value("${jwt.secretKey}")
     private String secretKey;
 
-    /**
-     * JwtToken 생성 메서드
-     *
-     * @param userId  : 유저  아이디
-     * @param minutes : jwt 유효시간
-     * @return : jwt 토큰
-     */
-    public String makeJwtToken(final Long userId,
-                               final int minutes) {
+    private final int YEAR_TO_MINUTES = 525600;
+
+    public String makeJwtToken(final Long userId) {
         Date now = new Date();
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setIssuer(issuer)
                 .setIssuedAt(now)
-                .setExpiration(createExpiration(minutes, now))
+                .setExpiration(createExpiration(YEAR_TO_MINUTES, now))
                 .claim("userId", userId)
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
@@ -46,7 +40,6 @@ public class JwtProvider {
     private Date createExpiration(final int minutes, final Date now) {
         return new Date(now.getTime() + Duration.ofMinutes(minutes).toMillis());
     }
-
 
     public HashMap<String, Object> parseJwtToken(String token) {
         loggingTokenInfo(token);
