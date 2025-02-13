@@ -2,6 +2,7 @@ package com.librarymanagement.book.ui;
 
 import com.librarymanagement.book.application.BookService;
 import com.librarymanagement.book.ui.dto.request.CreateBookHttpRequest;
+import com.librarymanagement.book.ui.dto.request.updateBookHttpRequest;
 import com.librarymanagement.book.ui.dto.response.GetBookHttpResponse;
 import com.librarymanagement.common.interceptor.annotation.Authenticated;
 import com.librarymanagement.common.resolver.annotation.UserIdentifier;
@@ -23,7 +24,8 @@ public class BookController {
     @Operation(summary = "도서 등록")
     @PostMapping("/v1/books")
     @Authenticated
-    public ResponseEntity<HttpStatus> createBook(@Valid @RequestBody CreateBookHttpRequest request, @UserIdentifier Long userId) {
+    public ResponseEntity<HttpStatus> createBook(@Valid @RequestBody CreateBookHttpRequest request,
+                                                 @UserIdentifier Long userId) {
         Long bookId = bookService.createBook(request.getTitle(), request.getAuthor(), request.getPublisher(), userId);
         return ResponseEntity.created(URI.create("/v1/books/" + bookId)).build();
     }
@@ -32,5 +34,13 @@ public class BookController {
     @GetMapping("/v1/books/{book-id}")
     public ResponseEntity<GetBookHttpResponse> getBookInfo(@PathVariable("book-id") Long bookId) {
         return ResponseEntity.ok().body(bookService.getBookInfo(bookId));
+    }
+
+    @Operation(summary = "도서 수정")
+    @PutMapping("/v1/books")
+    public ResponseEntity<HttpStatus> updateBook(@Valid @RequestBody updateBookHttpRequest request,
+                                                 @UserIdentifier Long userId) {
+        bookService.updateBook(request.getBookId(), request.getTitle(), request.getAuthor(), request.getPublisher());
+        return ResponseEntity.ok().build();
     }
 }

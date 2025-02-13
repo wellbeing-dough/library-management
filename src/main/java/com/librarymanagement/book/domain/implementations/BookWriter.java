@@ -26,4 +26,8 @@ public class BookWriter {
                 .publisher(publisher)
                 .build();
     }
+
+    public void write(Book book) {
+        bookRepository.save(book);
+    }
 }

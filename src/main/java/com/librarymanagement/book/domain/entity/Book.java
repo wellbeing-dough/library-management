@@ -24,4 +24,9 @@ public class Book extends BaseEntity {
 
     private String publisher;
 
+    public void updateInfo(String title, String author, String publisher) {
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+    }
 }
