@@ -3,11 +3,13 @@ package com.librarymanagement.auth.domain;
 import com.librarymanagement.common.exception.AuthenticationException;
 import com.librarymanagement.common.exception.ErrorCode;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
@@ -33,8 +35,12 @@ public class JwtProvider {
                 .setIssuedAt(now)
                 .setExpiration(createExpiration(YEAR_TO_MINUTES, now))
                 .claim("userId", userId)
-                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS512) // SecretKey 사용
                 .compact();
+    }
+
+    public SecretKey getSigningKey() {
+        return Keys.hmacShaKeyFor(secretKey.getBytes()); // secretKey를 SecretKey로 변환
     }
 
     private Date createExpiration(final int minutes, final Date now) {
@@ -67,7 +73,7 @@ public class JwtProvider {
      */
     public Object parseToken(final String token) {
         return Jwts.parser()
-                .setSigningKey(secretKey)
+                .setSigningKey(getSigningKey())
                 .parseClaimsJws(token)
                 .getBody();
     }

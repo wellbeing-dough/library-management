@@ -48,6 +48,10 @@ public class UserIdentifierArgumentResolver implements HandlerMethodArgumentReso
 
     private Long getUserIdFromToken(final Claims claims) {
         Object userId = claims.get("userId");
-        return Long.parseLong((String) userId);
+        if (userId instanceof Number) {
+            return ((Number) userId).longValue();
+        }
+        return null; // 혹은 예외 처리
     }
+
 }
