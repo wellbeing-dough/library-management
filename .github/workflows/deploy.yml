@@ -6,31 +6,31 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.0
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_DATABASE: library
-          MYSQL_ROOT_PASSWORD: root
-        options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
+#    services:
+#      mysql:
+#        image: mysql:8.0
+#        ports:
+#          - 3306:3306
+#        env:
+#          MYSQL_DATABASE: library
+#          MYSQL_ROOT_PASSWORD: root
+#        options: >-
+#          --health-cmd="mysqladmin ping --silent"
+#          --health-interval=10s
+#          --health-timeout=5s
+#          --health-retries=3
 
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: SetUp Redis
-        uses: shogo82148/actions-setup-redis@v1
-        with:
-          redis-version: "7"
-          redis-port: 6379
-      - run: redis-cli ping
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: SetUp Redis
+#        uses: shogo82148/actions-setup-redis@v1
+#        with:
+#          redis-version: "7"
+#          redis-port: 6379
+#      - run: redis-cli ping
 
 
       - uses: actions/checkout@v3
@@ -52,15 +52,8 @@ jobs:
           fi
         shell: bash
 
-      - name: Build With Gradle
-        env:
-          SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/library
-          SPRING_DATASOURCE_USERNAME: root
-          SPRING_DATASOURCE_PASSWORD: root
-          TZ: Asia/Seoul  # 시간대 설정을 한국으로 변경
-        run: ./gradlew clean build
-        id: buildAndTests
-        continue-on-error: true
+      - name: Run Tests  # 테스트 실행 추가
+        run: ./gradlew test
 
       - name: Archive test results if tests failed
         if: steps.buildAndTests.outcome == 'failure'
@@ -70,8 +63,8 @@ jobs:
           path: |
             **/build/reports/tests/test/
 
-#      - name: Build with Gradle
-#        run: ./gradlew bootJar
+      - name: Build with Gradle
+        run: ./gradlew bootJar
 
       - name: Docker Build & Push
         run: |
