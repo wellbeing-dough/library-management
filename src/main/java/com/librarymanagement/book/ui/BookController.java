@@ -1,6 +1,7 @@
 package com.librarymanagement.book.ui;
 
 import com.librarymanagement.book.application.BookService;
+import com.librarymanagement.book.ui.dto.request.AddTagToBookHttpRequest;
 import com.librarymanagement.book.ui.dto.request.CreateBookHttpRequest;
 import com.librarymanagement.book.ui.dto.request.updateBookHttpRequest;
 import com.librarymanagement.book.ui.dto.response.GetBookHttpResponse;
@@ -82,5 +83,13 @@ public class BookController {
         return ResponseEntity.ok(books);
     }
 
+
+
+    @Operation(summary = "도서에 태그 추가")
+    @PostMapping("/v1/books/tag")
+    public ResponseEntity<HttpStatus> addTagToBook(@Valid @RequestBody AddTagToBookHttpRequest request) {
+        bookService.addTagBook(request.getTagId(), request.getBookId());
+        return ResponseEntity.ok().build();
+    }
 
 }

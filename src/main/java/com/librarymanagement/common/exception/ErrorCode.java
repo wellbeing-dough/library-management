@@ -12,6 +12,10 @@ public enum ErrorCode {
     USER_EMAIL_NOT_FOUND_ERROR(404, "0102", "해당 이메일을 갖는 유저가 없습니다."),
     INVALID_PASSWORD_ERROR(401, "0103", "비밀번호가 잘못되었습니다."),
 
+    TAG_NOT_FOUND_ERROR(404, "0200", "해당 식별자를 갖는 태그가 없습니다."),
+
+    BOOK_TAG_ALREADY_EXISTS_ERROR(409, "0300", "해당 책은 이미 해당 태그가 추가된 상태 입니다."),
+
     AUTHORIZATION_HEADER_IS_NULL_ERROR(401, "0400", "헤더에 인증 정보가 없습니다."),
     HEADER_TYPE_IS_NOT_BEARER_ERROR(404, "0401", "헤더 타입이 Bearer가 아닙니다."),
     EXPIRED_TOKEN_ERROR(401, "0402", "토큰이 만료되었습니다."),

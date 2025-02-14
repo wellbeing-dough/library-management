@@ -8,6 +8,10 @@ import com.librarymanagement.book.ui.dto.response.GetBookHttpResponse;
 import com.librarymanagement.book.ui.dto.response.GetBookInfoHttpResponse;
 import com.librarymanagement.common.domain.SortByType;
 import com.librarymanagement.common.dto.Converter;
+import com.librarymanagement.tag.domain.entity.Tag;
+import com.librarymanagement.tag.domain.implementations.BookTagValidator;
+import com.librarymanagement.tag.domain.implementations.BookTagWriter;
+import com.librarymanagement.tag.domain.implementations.TagReader;
 import com.librarymanagement.user.domian.entity.User;
 import com.librarymanagement.user.domian.implementations.UserReader;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +21,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +30,9 @@ public class BookService {
     private final UserReader userReader;
     private final BookReader bookReader;
     private final BookValidator bookValidator;
+    private final TagReader tagReader;
+    private final BookTagValidator bookTagValidator;
+    private final BookTagWriter bookTagWriter;
 
     public Long createBook(String title, String author, String publisher, LocalDateTime publishedAt, Long userId) {
         User user = userReader.readById(userId);
@@ -63,5 +69,12 @@ public class BookService {
     public Slice<GetBookHttpResponse> searchBooksByTitle(String title, int page, int size, SortByType sortBy) {
         final Pageable pageable = PageRequest.of(page, size);
         return Converter.toSlice(pageable, bookReader.readListByTitle(title, pageable, sortBy));
+    }
+
+    public void addTagBook(Long tagId, Long bookId) {
+        Tag tag = tagReader.readById(tagId);
+        Book book = bookReader.readById(bookId);
+        bookTagValidator.isAlreadyExistsBookTag(tag, book);
+        bookTagWriter.writeBookTag(tag, book);
     }
 }

@@ -1,6 +1,8 @@
 package com.librarymanagement.tag.domain.implementations;
 
+import com.librarymanagement.common.exception.ErrorCode;
 import com.librarymanagement.tag.domain.entity.Tag;
+import com.librarymanagement.tag.exception.TagNotFoundException;
 import com.librarymanagement.tag.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,5 +19,15 @@ public class TagReader {
 
     public List<Tag> readAll() {
         return tagRepository.findAll();
+    }
+
+    public Tag readById(Long tagId) {
+        return tagRepository.findById(tagId)
+                .orElseThrow(() ->
+                        new TagNotFoundException(
+                                ErrorCode.TAG_NOT_FOUND_ERROR,
+                                ErrorCode.TAG_NOT_FOUND_ERROR.getStatusMessage()
+                        )
+                );
     }
 }
