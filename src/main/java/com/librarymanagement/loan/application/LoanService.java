@@ -2,6 +2,7 @@ package com.librarymanagement.loan.application;
 
 import com.librarymanagement.book.domain.entity.Book;
 import com.librarymanagement.book.domain.implementations.BookReader;
+import com.librarymanagement.common.redisson.RedissonDistributedLock;
 import com.librarymanagement.loan.domain.entity.Loan;
 import com.librarymanagement.loan.domain.implementations.*;
 import com.librarymanagement.user.domian.entity.User;
@@ -23,7 +24,7 @@ public class LoanService {
     private final LoanReader loanReader;
     private final BookLoanManager bookLoanManager;
 
-    // 시간 남으면 이거 동시성 제어
+    @RedissonDistributedLock(hashKey = "'borrow'", field = "#bookId")
     public void borrowBook(Long bookId, Long userId) {
         User user = userReader.readById(userId);
         Book book = bookReader.readById(bookId);
