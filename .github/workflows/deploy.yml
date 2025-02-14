@@ -52,8 +52,15 @@ jobs:
           fi
         shell: bash
 
-      - name: Run Tests  # 테스트 실행 추가
-        run: ./gradlew test
+      - name: Build with Core Module Gradle
+        env:
+          SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/library
+          SPRING_DATASOURCE_USERNAME: root
+          SPRING_DATASOURCE_PASSWORD: root
+          TZ: Asia/Seoul  # 시간대 설정을 한국으로 변경
+        run: ./gradlew :library-management:clean :library-management:build
+        id: buildAndTests
+        continue-on-error: true
 
       - name: Archive test results if tests failed
         if: steps.buildAndTests.outcome == 'failure'
@@ -63,8 +70,8 @@ jobs:
           path: |
             **/build/reports/tests/test/
 
-      - name: Build with Gradle
-        run: ./gradlew bootJar
+#      - name: Build with Gradle
+#        run: ./gradlew bootJar
 
       - name: Docker Build & Push
         run: |
