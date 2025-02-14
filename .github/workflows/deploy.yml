@@ -52,13 +52,13 @@ jobs:
           fi
         shell: bash
 
-      - name: Build with Core Module Gradle
+      - name: Build With Gradle
         env:
           SPRING_DATASOURCE_URL: jdbc:mysql://127.0.0.1:3306/library
           SPRING_DATASOURCE_USERNAME: root
           SPRING_DATASOURCE_PASSWORD: root
           TZ: Asia/Seoul  # 시간대 설정을 한국으로 변경
-        run: ./gradlew :library-management:clean :library-management:build
+        run: ./gradlew clean build
         id: buildAndTests
         continue-on-error: true
 
