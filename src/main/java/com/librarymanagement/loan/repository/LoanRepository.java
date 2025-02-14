@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface LoanRepository extends JpaRepository<Loan, Long>, LoanRepositoryQueryDsl {
     Optional<Loan> findByBookId(Long bookId);
+
+    Long countByBookId(Long bookId);
 }

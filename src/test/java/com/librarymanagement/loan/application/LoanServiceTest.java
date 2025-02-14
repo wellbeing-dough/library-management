@@ -1,5 +1,8 @@
 package com.librarymanagement.loan.application;
 
+import com.librarymanagement.loan.domain.entity.Loan;
+import com.librarymanagement.loan.domain.implementations.LoanReader;
+import com.librarymanagement.loan.repository.LoanRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,8 @@ class LoanServiceTest {
     @Autowired
     private LoanService loanService;
 
+    @Autowired
+    private LoanRepository loanRepository;
 
     @AfterEach
     public void after() {
@@ -50,7 +55,9 @@ class LoanServiceTest {
 
         latch.await();  // 모든 쓰레드가 종료될 때까지 기다림
 
+        Long count = loanRepository.countByBookId(bookId);
 
+        assertEquals(1, count);
         // 예외 발생 횟수는 99여야 하므로, 예외 발생 횟수를 확인
         assertEquals(99, exceptionCount.get());  // 예외 발생 횟수는 99여야 함
     }

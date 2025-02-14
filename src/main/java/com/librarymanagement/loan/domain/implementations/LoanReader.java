@@ -21,7 +21,7 @@ public class LoanReader {
         return loanRepository.findNonReturnOptionalByBookId(bookId);
     }
 
-    public Loan readByBookIdAndUserId(Long bookId) {
+    public Loan readByBookId(Long bookId) {
         return loanRepository.findByBookId(bookId)
                 .orElseThrow(() ->
                         new LoanNotFoundException(
