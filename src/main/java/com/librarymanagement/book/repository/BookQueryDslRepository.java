@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface BookQueryDslRepository {
-    List<GetBookHttpResponse> findListByAuthor(String author, Pageable pageable, SortByType sortBy);
+    List<GetBookHttpResponse> findListByAuthor(String author, Long tagId, Pageable pageable, SortByType sortBy);
 
-    List<GetBookHttpResponse> findListByTitle(String title, Pageable pageable, SortByType sortBy);
+    List<GetBookHttpResponse> findListByTitle(String title, Long tagId, Pageable pageable, SortByType sortBy);
 }

@@ -31,11 +31,11 @@ public class BookReader {
                 );
     }
 
-    public List<GetBookHttpResponse> readListByAuthor(String author, Pageable pageable, SortByType sortBy) {
-        return bookRepository.findListByAuthor(author, pageable, sortBy);
+    public List<GetBookHttpResponse> readListByAuthor(String author, Long tagId, Pageable pageable, SortByType sortBy) {
+        return bookRepository.findListByAuthor(author, tagId, pageable, sortBy);
     }
 
-    public List<GetBookHttpResponse> readListByTitle(String title, Pageable pageable, SortByType sortBy) {
-        return bookRepository.findListByTitle(title, pageable, sortBy);
+    public List<GetBookHttpResponse> readListByTitle(String title, Long tagId, Pageable pageable, SortByType sortBy) {
+        return bookRepository.findListByTitle(title, tagId, pageable, sortBy);
     }
 }

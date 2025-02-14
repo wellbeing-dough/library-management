@@ -61,14 +61,14 @@ public class BookService {
         bookWriter.write(book);
     }
 
-    public Slice<GetBookHttpResponse> searchBooksByAuthor(String author, int page, int size, SortByType sortBy) {
+    public Slice<GetBookHttpResponse> searchBooksByAuthor(String author, Long tagId, int page, int size, SortByType sortBy) {
         final Pageable pageable = PageRequest.of(page, size);
-        return Converter.toSlice(pageable, bookReader.readListByAuthor(author, pageable, sortBy));
+        return Converter.toSlice(pageable, bookReader.readListByAuthor(author, tagId, pageable, sortBy));
     }
 
-    public Slice<GetBookHttpResponse> searchBooksByTitle(String title, int page, int size, SortByType sortBy) {
+    public Slice<GetBookHttpResponse> searchBooksByTitle(String title, Long tagId, int page, int size, SortByType sortBy) {
         final Pageable pageable = PageRequest.of(page, size);
-        return Converter.toSlice(pageable, bookReader.readListByTitle(title, pageable, sortBy));
+        return Converter.toSlice(pageable, bookReader.readListByTitle(title, tagId, pageable, sortBy));
     }
 
     public void addTagBook(Long tagId, Long bookId) {

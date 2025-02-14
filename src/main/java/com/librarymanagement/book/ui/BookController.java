@@ -59,27 +59,29 @@ public class BookController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "이름으로 도서 검색 (저자명 또는 출판사명)")
+    @Operation(summary = "저자명으로 도서 검색")
     @GetMapping("/v1/books/author")
     public ResponseEntity<Slice<GetBookHttpResponse>> searchBooksByAuthor(
-            @RequestParam("author") String author,
+            @RequestParam(value = "author", required = false) String author,
+            @RequestParam(value = "tag-id", required = false) Long tagId,
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             @RequestParam("sort-by")SortByType sortBy
     ) {
-        Slice<GetBookHttpResponse> books = bookService.searchBooksByAuthor(author, page, size, sortBy);
+        Slice<GetBookHttpResponse> books = bookService.searchBooksByAuthor(author, tagId, page, size, sortBy);
         return ResponseEntity.ok(books);
     }
 
     @Operation(summary = "제목으로 도서 검색")
     @GetMapping("/v1/books/title")
     public ResponseEntity<Slice<GetBookHttpResponse>> searchBooksByTitle(
-            @RequestParam("title") String title,
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "tag-id", required = false) Long tagId,
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             @RequestParam("sort-by")SortByType sortBy
     ) {
-        Slice<GetBookHttpResponse> books = bookService.searchBooksByTitle(title, page, size, sortBy);
+        Slice<GetBookHttpResponse> books = bookService.searchBooksByTitle(title, tagId, page, size, sortBy);
         return ResponseEntity.ok(books);
     }
 
