@@ -13,6 +13,7 @@ public enum ErrorCode {
     INVALID_PASSWORD_ERROR(401, "0103", "비밀번호가 잘못되었습니다."),
 
     TAG_NOT_FOUND_ERROR(404, "0200", "해당 식별자를 갖는 태그가 없습니다."),
+    TAG_ALREADY_EXISTS_ERROR(409, "0201", "해당 이름을 갖는 태그가 존재합니다"),
 
     BOOK_TAG_ALREADY_EXISTS_ERROR(409, "0300", "해당 책은 이미 해당 태그가 추가된 상태 입니다."),
 

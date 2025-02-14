@@ -30,4 +30,8 @@ public class TagReader {
                         )
                 );
     }
+
+    public boolean existsByName(String name) {
+        return tagRepository.existsByName(name);
+    }
 }
