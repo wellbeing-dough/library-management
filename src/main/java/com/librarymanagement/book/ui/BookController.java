@@ -5,6 +5,7 @@ import com.librarymanagement.book.ui.dto.request.CreateBookHttpRequest;
 import com.librarymanagement.book.ui.dto.request.updateBookHttpRequest;
 import com.librarymanagement.book.ui.dto.response.GetBookHttpResponse;
 import com.librarymanagement.book.ui.dto.response.GetBookInfoHttpResponse;
+import com.librarymanagement.common.domain.SortByType;
 import com.librarymanagement.common.interceptor.annotation.Authenticated;
 import com.librarymanagement.common.resolver.annotation.UserIdentifier;
 import io.swagger.v3.oas.annotations.Operation;
@@ -57,28 +58,29 @@ public class BookController {
         return ResponseEntity.noContent().build();
     }
 
-//    @Operation(summary = "이름으로 도서 검색 (저자명 또는 출판사명)")
-//    @GetMapping("/v1/books/name")
-//    public ResponseEntity<Slice<GetBookHttpResponse>> searchBooksByName(
-//            @RequestParam("name") String name,
-//            @RequestParam("page") int page,
-//            @RequestParam("size") int size,
-//            @RequestParam("sort-by") SortByType
-//    ) {
-//        List<GetBookInfoHttpResponse> books = bookService.searchBooksByName(name);
-//        return ResponseEntity.ok(books);
-//    }
-//
-//    @Operation(summary = "제목으로 도서 검색")
-//    @GetMapping("/v1/books/title")
-//    public ResponseEntity<Slice<GetBookHttpResponse>> searchBooksByTitle(
-//            @RequestParam("title") String title,
-//            @RequestParam("page") int page,
-//            @RequestParam("size") int size
-//    ) {
-//        List<GetBookInfoHttpResponse> books = bookService.searchBooksByTitle(title);
-//        return ResponseEntity.ok(books);
-//    }
+    @Operation(summary = "이름으로 도서 검색 (저자명 또는 출판사명)")
+    @GetMapping("/v1/books/author")
+    public ResponseEntity<Slice<GetBookHttpResponse>> searchBooksByAuthor(
+            @RequestParam("author") String author,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("sort-by")SortByType sortBy
+    ) {
+        Slice<GetBookHttpResponse> books = bookService.searchBooksByAuthor(author, page, size, sortBy);
+        return ResponseEntity.ok(books);
+    }
+
+    @Operation(summary = "제목으로 도서 검색")
+    @GetMapping("/v1/books/title")
+    public ResponseEntity<Slice<GetBookHttpResponse>> searchBooksByTitle(
+            @RequestParam("title") String title,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("sort-by")SortByType sortBy
+    ) {
+        Slice<GetBookHttpResponse> books = bookService.searchBooksByTitle(title, page, size, sortBy);
+        return ResponseEntity.ok(books);
+    }
 
 
 }

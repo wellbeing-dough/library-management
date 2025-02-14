@@ -2,7 +2,7 @@ package com.librarymanagement.common.domain;
 
 public enum SortByType {
     TITLE("제목"),
-    CREATED_AT("")
+    PUBLISHED_AT("출판일")
     ;
 
 
