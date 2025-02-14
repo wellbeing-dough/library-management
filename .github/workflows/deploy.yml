@@ -1,0 +1,105 @@
+name: Deploy to Development and Production
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: library
+          MYSQL_ROOT_PASSWORD: root
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: SetUp Redis
+        uses: shogo82148/actions-setup-redis@v1
+        with:
+          redis-version: "7"
+          redis-port: 6379
+      - run: redis-cli ping
+
+
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: 17
+          distribution: zulu
+
+      - name: Make application.yml
+        run: |
+          mkdir -p ./src/main/resources
+          cd ./src/main/resources
+          touch ./application.yml
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "${{ secrets.APPLICATION_PROD }}" >> ./application.yml
+          else
+            echo "${{ secrets.APPLICATION_DEV }}" >> ./application.yml
+          fi
+        shell: bash
+
+      - name: Run Tests  # 테스트 실행 추가
+        run: ./gradlew test
+
+      - name: Archive test results if tests failed
+        if: steps.buildAndTests.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            **/build/reports/tests/test/
+
+      - name: Build with Gradle
+        run: ./gradlew bootJar
+
+      - name: Docker Build & Push
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            IMAGE_TAG="libarary_backend"
+          else
+            IMAGE_TAG="libarary_dev_backend"
+          fi
+          docker build -t ${{ secrets.DOCKER_REPO }}/$IMAGE_TAG .
+          docker push ${{ secrets.DOCKER_REPO }}/$IMAGE_TAG
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment: [dev, prod]
+    steps:
+      - name: Deploy
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ matrix.environment == 'prod' && secrets.HOST_PROD || secrets.HOST_DEV }}
+          username: ubuntu
+          key: ${{ matrix.environment == 'prod' && secrets.KEY_PROD || secrets.KEY_DEV }}
+          port: 22
+          script: |
+            if [ "${{ matrix.environment }}" == "prod" ]; then
+              IMAGE_TAG="libarary_backend"
+            else
+              IMAGE_TAG="libarary_dev_backend"
+            fi
+            sudo docker pull ${{ secrets.DOCKER_REPO }}/$IMAGE_TAG
+            sudo docker compose down
+            sudo docker compose up -d
+        if: |
+          (matrix.environment == 'prod' && github.ref == 'refs/heads/main') ||
+          (matrix.environment == 'dev' && github.ref != 'refs/heads/main')
