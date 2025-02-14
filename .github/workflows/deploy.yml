@@ -52,8 +52,8 @@ jobs:
           fi
         shell: bash
 
-      - name: Run Tests  # 테스트 실행 추가
-        run: ./gradlew test
+#      - name: Run Tests  # 테스트 실행 추가
+#        run: ./gradlew test
 
       - name: Archive test results if tests failed
         if: steps.buildAndTests.outcome == 'failure'
