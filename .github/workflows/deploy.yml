@@ -45,7 +45,7 @@ jobs:
           mkdir -p ./src/main/resources
           cd ./src/main/resources
           touch ./application.yml
-          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+          if [ "${{ github.ref }}" == "refs/heads/master" ]; then
             echo "${{ secrets.APPLICATION_PROD }}" >> ./application.yml
           else
             echo "${{ secrets.APPLICATION_DEV }}" >> ./application.yml
@@ -69,7 +69,7 @@ jobs:
       - name: Docker Build & Push
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+          if [ "${{ github.ref }}" == "refs/heads/master" ]; then
             IMAGE_TAG="libarary_backend"
           else
             IMAGE_TAG="libarary_dev_backend"
@@ -101,5 +101,5 @@ jobs:
             sudo docker compose down
             sudo docker compose up -d
         if: |
-          (matrix.environment == 'prod' && github.ref == 'refs/heads/main') ||
-          (matrix.environment == 'dev' && github.ref != 'refs/heads/main')
+          (matrix.environment == 'prod' && github.ref == 'refs/heads/master') ||
+          (matrix.environment == 'dev' && github.ref != 'refs/heads/master')
