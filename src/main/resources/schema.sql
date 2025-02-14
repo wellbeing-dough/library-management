@@ -41,3 +41,21 @@ CREATE TABLE loan
     updated_date            TIMESTAMP            NOT    NULL,
     PRIMARY KEY (id)
 );
+
+CREATE TABLE tag
+(
+    id                      BIGINT NOT NULL      AUTO_INCREMENT,
+    name                    varchar(50)          NOT NULL UNIQUE,
+    deleted_at              TIMESTAMP                   NULL,
+    created_date            TIMESTAMP            NOT    NULL,
+    updated_date            TIMESTAMP            NOT    NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE book_tag
+(
+    id                      BIGINT NOT NULL      AUTO_INCREMENT,
+    book_id                 BIGINT               NOT    NULL,
+    tag_id                  BIGINT               NOT    NULL,
+
+);
