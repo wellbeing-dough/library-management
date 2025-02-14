@@ -38,7 +38,7 @@ public class LoanService {
         Loan loan = loanReader.readByBookIdAndUserId(book.getId());
 
         loanValidator.isPossibleToReturn(loan, user.getId());
-        Integer delayPenalty = loanPenaltyGenerator.generateDeplayPenalty(loan.getDueDate(), LocalDateTime.now());
+        Integer delayPenalty = loanPenaltyGenerator.generateDelayPenalty(loan.getDueDate(), LocalDateTime.now());
 
         bookLoanManager.returnBook(book, loan, delayPenalty);
         return delayPenalty;

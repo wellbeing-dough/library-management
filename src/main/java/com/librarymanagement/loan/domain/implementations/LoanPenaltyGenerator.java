@@ -10,7 +10,7 @@ public class LoanPenaltyGenerator {
 
     private static final int PENALTY_PER_DAY = 1000;
 
-    public Integer generateDeplayPenalty(LocalDateTime dueDate, LocalDateTime returnDate) {
+    public Integer generateDelayPenalty(LocalDateTime dueDate, LocalDateTime returnDate) {
         // 제한 기간을 넘지 않았다면 벌금 없음
         if (returnDate.isBefore(dueDate) || returnDate.isEqual(dueDate)) {
             return 0;
