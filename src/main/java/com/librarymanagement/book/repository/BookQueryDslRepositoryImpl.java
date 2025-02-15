@@ -32,15 +32,15 @@ public class BookQueryDslRepositoryImpl implements BookQueryDslRepository {
                 ))
                 .from(book);
 
-        // author가 null이 아니고 빈 문자열이 아닐 경우만 검색 조건 추가
-        if (author != null && !author.isBlank()) {
-            query.where(book.author.like("%" + author + "%"));
-        }
-
         // tagId가 존재하면 book_tag 테이블을 조인하여 태그 필터링 적용
         if (tagId != null) {
             query.innerJoin(bookTag).on(book.id.eq(bookTag.bookId))
                     .where(bookTag.tagId.eq(tagId));
+        }
+
+        // author가 null이 아니고 빈 문자열이 아닐 경우만 검색 조건 추가
+        if (author != null && !author.isBlank()) {
+            query.where(book.author.like("%" + author + "%"));
         }
 
         return query.orderBy(sortPredicate(sortBy), book.id.asc())
@@ -62,14 +62,14 @@ public class BookQueryDslRepositoryImpl implements BookQueryDslRepository {
                 ))
                 .from(book);
 
-        if (title != null && !title.isBlank()) {
-            query.where(book.title.like("%" + title + "%"));
-        }
-
         // tagId가 존재하면 book_tag 테이블을 조인하여 태그 필터링 적용
         if (tagId != null) {
-            query.join(bookTag).on(book.id.eq(bookTag.bookId))
+            query.innerJoin(bookTag).on(book.id.eq(bookTag.bookId))
                     .where(bookTag.tagId.eq(tagId));
+        }
+
+        if (title != null && !title.isBlank()) {
+            query.where(book.title.like("%" + title + "%"));
         }
 
         return query.orderBy(sortPredicate(sortBy), book.id.asc())
