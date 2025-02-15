@@ -39,7 +39,7 @@ public class BookQueryDslRepositoryImpl implements BookQueryDslRepository {
 
         // tagId가 존재하면 book_tag 테이블을 조인하여 태그 필터링 적용
         if (tagId != null) {
-            query.join(bookTag).on(book.id.eq(bookTag.bookId))
+            query.innerJoin(bookTag).on(book.id.eq(bookTag.bookId))
                     .where(bookTag.tagId.eq(tagId));
         }
 

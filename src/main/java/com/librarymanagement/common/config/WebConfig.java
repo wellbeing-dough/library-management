@@ -16,8 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${cors.allowed.origins:}")
-    private String[] ALLOWED_CORS_URLS;
+//    @Value("${cors.allowed.origins:}")
+//    private String[] ALLOWED_CORS_URLS;
     private final TokenInterceptor tokenInterceptor;
     private final UserIdentifierArgumentResolver userIdentifierArgumentResolver;
 
@@ -35,7 +35,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins(ALLOWED_CORS_URLS)
+                .allowedOrigins("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowCredentials(true)
                 .maxAge(3600);
