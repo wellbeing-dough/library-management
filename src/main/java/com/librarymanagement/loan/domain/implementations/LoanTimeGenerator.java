@@ -14,7 +14,7 @@ public class LoanTimeGenerator {
     private static final int DUE_NANOSECOND = 0;
 
     public LocalDateTime generateDueDate(LocalDateTime dueDate) {
-        return LocalDateTime.now()
+        return dueDate
                 .plusWeeks(LOAN_PERIOD_WEEKS)
                 .withHour(DUE_HOUR)
                 .withMinute(DUE_MINUTE)

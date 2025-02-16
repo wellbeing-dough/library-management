@@ -4,6 +4,7 @@ import com.librarymanagement.book.application.BookService;
 import com.librarymanagement.book.ui.dto.request.AddTagToBookHttpRequest;
 import com.librarymanagement.book.ui.dto.request.CreateBookHttpRequest;
 import com.librarymanagement.book.ui.dto.request.updateBookHttpRequest;
+import com.librarymanagement.book.ui.dto.response.GetBestSellerHttpResponse;
 import com.librarymanagement.book.ui.dto.response.GetBookHttpResponse;
 import com.librarymanagement.book.ui.dto.response.GetBookInfoHttpResponse;
 import com.librarymanagement.common.domain.SortByType;
@@ -18,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -93,7 +93,7 @@ public class BookController {
 
     @Operation(summary = "베스트 셀러")
     @GetMapping("/v1/books/best-seller")
-    public ResponseEntity<List<GetBookHttpResponse>> getBestSeller() {
+    public ResponseEntity<GetBestSellerHttpResponse> getBestSeller() {
         return ResponseEntity.ok().body(bookService.getBestSeller());
     }
 

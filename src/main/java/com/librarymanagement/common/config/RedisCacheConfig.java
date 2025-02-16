@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.librarymanagement.book.ui.dto.response.GetBestSellerHttpResponse;
 import com.librarymanagement.book.ui.dto.response.GetBookInfoHttpResponse;
 import com.librarymanagement.user.ui.dto.response.GetUserInfoHttpResponse;
 import lombok.RequiredArgsConstructor;
@@ -60,6 +61,13 @@ public class RedisCacheConfig {
     public RedisCacheManager bookInfoCacheManager() {
         return RedisCacheManager.builder(redisConnectionFactory)
                 .cacheDefaults(createJsonCacheConfig(BOOK_INFO_EXPIRATION, GetBookInfoHttpResponse.class))
+                .build();
+    }
+
+    @Bean
+    public RedisCacheManager bestSellerCacheManager() {
+        return RedisCacheManager.builder(redisConnectionFactory)
+                .cacheDefaults(createJsonCacheConfig(BOOK_INFO_EXPIRATION, GetBestSellerHttpResponse.class))
                 .build();
     }
 

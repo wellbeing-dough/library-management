@@ -4,6 +4,7 @@ import com.librarymanagement.book.domain.entity.Book;
 import com.librarymanagement.book.domain.implementations.BookReader;
 import com.librarymanagement.book.domain.implementations.BookValidator;
 import com.librarymanagement.book.domain.implementations.BookWriter;
+import com.librarymanagement.book.ui.dto.response.GetBestSellerHttpResponse;
 import com.librarymanagement.book.ui.dto.response.GetBookHttpResponse;
 import com.librarymanagement.book.ui.dto.response.GetBookInfoHttpResponse;
 import com.librarymanagement.common.domain.SortByType;
@@ -84,7 +85,9 @@ public class BookService {
         bookTagWriter.writeBookTag(tag, book);
     }
 
-    public List<GetBookHttpResponse> getBestSeller() {
-
+    @Cacheable(value = "bestSeller", key = "'bestSeller'", cacheManager = "bestSellerCacheManager")
+    public GetBestSellerHttpResponse getBestSeller() {
+        List<GetBookHttpResponse> bestSeller = bookReader.getBestSeller();
+        return new GetBestSellerHttpResponse(bestSeller);
     }
 }
