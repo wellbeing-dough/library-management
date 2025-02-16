@@ -85,8 +85,6 @@ public class BookController {
         return ResponseEntity.ok(books);
     }
 
-
-
     @Operation(summary = "도서에 태그 추가")
     @PostMapping("/v1/books/tag")
     public ResponseEntity<HttpStatus> addTagToBook(@Valid @RequestBody AddTagToBookHttpRequest request) {

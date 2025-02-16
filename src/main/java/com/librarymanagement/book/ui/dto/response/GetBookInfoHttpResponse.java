@@ -1,7 +1,6 @@
 package com.librarymanagement.book.ui.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.librarymanagement.book.domain.emuns.LoanStatus;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -18,12 +17,13 @@ public class GetBookInfoHttpResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "UTC")
     private final LocalDateTime publishedAt;
 
-    public GetBookInfoHttpResponse(Long bookId, String title, String author, String publisher, LoanStatus loanStatus, LocalDateTime publishedAt) {
+
+    public GetBookInfoHttpResponse(Long bookId, String title, String author, String publisher, String loanStatus, LocalDateTime publishedAt) {
         this.bookId = bookId;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
-        this.loanStatus = loanStatus.getValue();
+        this.loanStatus = loanStatus;
         this.publishedAt = publishedAt;
     }
 }

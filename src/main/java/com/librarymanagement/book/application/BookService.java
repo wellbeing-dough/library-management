@@ -15,6 +15,8 @@ import com.librarymanagement.tag.domain.implementations.TagReader;
 import com.librarymanagement.user.domian.entity.User;
 import com.librarymanagement.user.domian.implementations.UserReader;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -40,12 +42,14 @@ public class BookService {
         return book.getId();
     }
 
+    @Cacheable(value = "book", key = "#bookId", cacheManager = "bookInfoCacheManager")
     public GetBookInfoHttpResponse getBookInfo(Long bookId) {
         Book book = bookReader.readById(bookId);
         return new GetBookInfoHttpResponse(book.getId(), book.getTitle(), book.getAuthor(), book.getPublisher(),
-                book.getLoanStatus(), book.getPublishedAt());
+                book.getLoanStatus().getValue(), book.getPublishedAt());
     }
 
+    @CacheEvict(value = "book", key = "#bookId", cacheManager = "bookInfoCacheManager")
     public void updateBook(Long bookId, String title, String author, String publisher, Long userId) {
         User user = userReader.readById(userId);
         Book book = bookReader.readById(bookId);
@@ -53,6 +57,7 @@ public class BookService {
         bookWriter.write(book);
     }
 
+    @CacheEvict(value = "book", key = "#bookId", cacheManager = "bookInfoCacheManager")
     public void deleteBook(Long bookId, Long userId) {
         User user = userReader.readById(userId);
         Book book = bookReader.readById(bookId);
