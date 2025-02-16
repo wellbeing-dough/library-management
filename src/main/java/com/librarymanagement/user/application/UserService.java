@@ -8,10 +8,13 @@ import com.librarymanagement.user.domian.implementations.UserValidator;
 import com.librarymanagement.user.domian.implementations.UserWriter;
 import com.librarymanagement.user.ui.dto.response.GetUserInfoHttpResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserWriter userWriter;
@@ -32,6 +35,7 @@ public class UserService {
         return jwtProvider.makeJwtToken(user.getId());
     }
 
+    @Cacheable(value = "userCache", key = "#userId", cacheManager = "userInfoCacheManager")
     public GetUserInfoHttpResponse getUserInfo(Long userId) {
         User user = userReader.readById(userId);
         return new GetUserInfoHttpResponse(user.getId(), user.getEmail(), user.getNickname());

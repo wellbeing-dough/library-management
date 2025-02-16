@@ -4,6 +4,7 @@ import com.librarymanagement.book.application.BookService;
 import com.librarymanagement.book.ui.dto.request.AddTagToBookHttpRequest;
 import com.librarymanagement.book.ui.dto.request.CreateBookHttpRequest;
 import com.librarymanagement.book.ui.dto.request.updateBookHttpRequest;
+import com.librarymanagement.book.ui.dto.response.GetBestSellerHttpResponse;
 import com.librarymanagement.book.ui.dto.response.GetBookHttpResponse;
 import com.librarymanagement.book.ui.dto.response.GetBookInfoHttpResponse;
 import com.librarymanagement.common.domain.SortByType;
@@ -68,8 +69,7 @@ public class BookController {
             @RequestParam("size") int size,
             @RequestParam("sort-by")SortByType sortBy
     ) {
-        Slice<GetBookHttpResponse> books = bookService.searchBooksByAuthor(author, tagId, page, size, sortBy);
-        return ResponseEntity.ok(books);
+        return ResponseEntity.ok().body(bookService.searchBooksByAuthor(author, tagId, page, size, sortBy));
     }
 
     @Operation(summary = "제목으로 도서 검색")
@@ -81,17 +81,20 @@ public class BookController {
             @RequestParam("size") int size,
             @RequestParam("sort-by")SortByType sortBy
     ) {
-        Slice<GetBookHttpResponse> books = bookService.searchBooksByTitle(title, tagId, page, size, sortBy);
-        return ResponseEntity.ok(books);
+        return ResponseEntity.ok().body(bookService.searchBooksByTitle(title, tagId, page, size, sortBy));
     }
-
-
 
     @Operation(summary = "도서에 태그 추가")
     @PostMapping("/v1/books/tag")
     public ResponseEntity<HttpStatus> addTagToBook(@Valid @RequestBody AddTagToBookHttpRequest request) {
         bookService.addTagBook(request.getTagId(), request.getBookId());
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "베스트 셀러")
+    @GetMapping("/v1/books/best-seller")
+    public ResponseEntity<GetBestSellerHttpResponse> getBestSeller() {
+        return ResponseEntity.ok().body(bookService.getBestSeller());
     }
 
 }

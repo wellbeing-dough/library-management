@@ -20,7 +20,8 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info().title("도서관리 시스템 API Docs").version("1.0.0"))
                 .servers(List.of(
-                        new Server().url("https://kimdongwoo.store").description("Production Server")
+                        new Server().url("https://kimdongwoo.store").description("Production Server"),
+                        new Server().url("http://localhost:8080").description("Local Server")
                 ))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new io.swagger.v3.oas.models.Components()

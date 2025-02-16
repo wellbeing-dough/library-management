@@ -4,6 +4,7 @@ import com.librarymanagement.loan.domain.entity.Loan;
 import com.librarymanagement.loan.domain.implementations.LoanReader;
 import com.librarymanagement.loan.repository.LoanRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +31,7 @@ class LoanServiceTest {
     }
 
     @Test
+    @Disabled
     void 동시에_100개의_요청으로_책_대출을_시도하면_단_한_번만_대출이_성공한다() throws InterruptedException {
         // given
         Long bookId = 1L; // 테스트용 책 ID

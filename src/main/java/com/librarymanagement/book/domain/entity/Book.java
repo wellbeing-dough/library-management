@@ -34,6 +34,8 @@ public class Book extends BaseEntity {
 
     private LocalDateTime publishedAt;
 
+    private Long loanCount;
+
     public void updateInfo(String title, String author, String publisher) {
         this.title = title;
         this.author = author;
@@ -42,6 +44,11 @@ public class Book extends BaseEntity {
 
     public void mockDelete(LocalDateTime now) {
         this.deletedAt = now;
+    }
+
+    public void borrowBook(LoanStatus loanStatus) {
+        this.loanStatus = loanStatus;
+        this.loanCount++;
     }
 
     public void updateLoanStatus(LoanStatus loanStatus) {

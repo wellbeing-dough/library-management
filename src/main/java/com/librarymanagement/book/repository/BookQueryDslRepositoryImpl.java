@@ -78,6 +78,22 @@ public class BookQueryDslRepositoryImpl implements BookQueryDslRepository {
                 .fetch();
     }
 
+    @Override
+    public List<GetBookHttpResponse> getBestSeller() {
+        return jpaQueryFactory
+                .select(Projections.constructor(
+                        GetBookHttpResponse.class,
+                        book.id.as("bookId"),
+                        book.title,
+                        book.author,
+                        book.loanStatus
+                ))
+                .from(book)
+                .orderBy(book.loanCount.desc(), book.id.asc())
+                .limit(5)
+                .fetch();
+    }
+
     private OrderSpecifier<?> sortPredicate(SortByType sortByType) {
         if (sortByType == SortByType.TITLE) {
             return book.title.asc();

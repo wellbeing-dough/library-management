@@ -20,7 +20,7 @@ public class BookLoanManager {
     private final LoanWriter loanWriter;
 
     public void borrowBook(Book book, User user, LocalDateTime dueDate) {
-        book.updateLoanStatus(LoanStatus.BORROWED);
+        book.borrowBook(LoanStatus.BORROWED);
         loanWriter.createLoan(book.getId(), user.getId(), dueDate);
         bookWriter.write(book);
     }

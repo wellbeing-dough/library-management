@@ -38,4 +38,8 @@ public class BookReader {
     public List<GetBookHttpResponse> readListByTitle(String title, Long tagId, Pageable pageable, SortByType sortBy) {
         return bookRepository.findListByTitle(title, tagId, pageable, sortBy);
     }
+
+    public List<GetBookHttpResponse> getBestSeller() {
+        return bookRepository.getBestSeller();
+    }
 }
