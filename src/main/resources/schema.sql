@@ -23,6 +23,7 @@ CREATE TABLE book
     author                  VARCHAR(50)          NOT    NULL,
     publisher               VARCHAR(50)          NOT    NULL,
     loan_status             varchar(50)          NOT    NULL,
+    loan_count              BIGINT               NOT    NULL,
     deleted_at              TIMESTAMP                   NULL,
     published_at            TIMESTAMP            NOT    NULL,
     created_date            TIMESTAMP            NOT    NULL,
