@@ -35,7 +35,7 @@ public class UserService {
         return jwtProvider.makeJwtToken(user.getId());
     }
 
-    @Cacheable(value = "userCache", key = "#userId", cacheManager = "userCacheManager")
+    @Cacheable(value = "userCache", key = "#userId", cacheManager = "userInfoCacheManager")
     public GetUserInfoHttpResponse getUserInfo(Long userId) {
         User user = userReader.readById(userId);
         return new GetUserInfoHttpResponse(user.getId(), user.getEmail(), user.getNickname());
