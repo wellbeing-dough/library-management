@@ -9,6 +9,8 @@ import com.librarymanagement.book.ui.dto.response.GetBookHttpResponse;
 import com.librarymanagement.book.ui.dto.response.GetBookInfoHttpResponse;
 import com.librarymanagement.common.domain.SortByType;
 import com.librarymanagement.common.dto.Converter;
+import com.librarymanagement.common.exception.CacheOperationException;
+import com.librarymanagement.common.exception.ErrorCode;
 import com.librarymanagement.tag.domain.entity.Tag;
 import com.librarymanagement.tag.domain.implementations.BookTagValidator;
 import com.librarymanagement.tag.domain.implementations.BookTagWriter;
@@ -16,12 +18,15 @@ import com.librarymanagement.tag.domain.implementations.TagReader;
 import com.librarymanagement.user.domian.entity.User;
 import com.librarymanagement.user.domian.implementations.UserReader;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.Cache;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.cache.CacheManager;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,6 +42,7 @@ public class BookService {
     private final TagReader tagReader;
     private final BookTagValidator bookTagValidator;
     private final BookTagWriter bookTagWriter;
+    private final CacheManager cacheManager;
 
     public Long createBook(String title, String author, String publisher, LocalDateTime publishedAt, Long userId) {
         User user = userReader.readById(userId);
@@ -83,6 +89,22 @@ public class BookService {
         Book book = bookReader.readById(bookId);
         bookTagValidator.isAlreadyExistsBookTag(tag, book);
         bookTagWriter.writeBookTag(tag, book);
+    }
+
+    @Scheduled(cron = "0 0 4 * * *") // 매일 새벽 4시 0분에 실행
+    public void refreshBestSellerCache() {
+        // 새 데이터를 가져와서 캐시에 바로 저장
+        List<GetBookHttpResponse> bestSellerBooks = bookReader.getBestSeller();
+
+        Cache bestSellerCache = cacheManager.getCache("bestSeller");
+        if (bestSellerCache != null) {
+            bestSellerCache.put("bestSeller", bestSellerBooks); // 기존 데이터를 덮어씌움
+        } else {
+            throw new CacheOperationException(
+                    ErrorCode.BEST_SELLER_CACHE_OPERATION_EXCEPTION,
+                    ErrorCode.BEST_SELLER_CACHE_OPERATION_EXCEPTION.getStatusMessage()
+            );
+        }
     }
 
     @Cacheable(value = "bestSeller", key = "'bestSeller'", cacheManager = "bestSellerCacheManager")
