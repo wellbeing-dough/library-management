@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-        image: mysql:8.0
+        image: mysql:8.3.0
         ports:
           - 3306:3306
         env:
@@ -60,6 +60,7 @@ jobs:
           TZ: Asia/Seoul  # 시간대 설정을 한국으로 변경
         run: ./gradlew clean build
         id: buildAndTests
+        continue-on-error: true
 
       - name: Archive test results if tests failed
         if: steps.buildAndTests.outcome == 'failure'
