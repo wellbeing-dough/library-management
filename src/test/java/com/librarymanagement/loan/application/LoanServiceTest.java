@@ -1,9 +1,6 @@
 package com.librarymanagement.loan.application;
 
-import com.librarymanagement.loan.domain.entity.Loan;
-import com.librarymanagement.loan.domain.implementations.LoanReader;
 import com.librarymanagement.loan.repository.LoanRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +21,6 @@ class LoanServiceTest {
 
     @Autowired
     private LoanRepository loanRepository;
-
-    @AfterEach
-    public void after() {
-
-    }
 
     @Test
     @Disabled

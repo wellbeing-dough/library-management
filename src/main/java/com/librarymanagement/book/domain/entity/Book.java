@@ -31,11 +31,24 @@ public class Book extends BaseEntity {
     @Column(name = "loan_status")
     private LoanStatus loanStatus;
 
+    @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
+    @Column(name = "published_at")
     private LocalDateTime publishedAt;
 
+    @Column(name = "loan_count")
     private Long loanCount;
+
+    public Book(String title, String author, String publisher, LoanStatus loanStatus, LocalDateTime deletedAt, LocalDateTime publishedAt, Long loanCount) {
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.loanStatus = loanStatus;
+        this.deletedAt = deletedAt;
+        this.publishedAt = publishedAt;
+        this.loanCount = loanCount;
+    }
 
     public void updateInfo(String title, String author, String publisher) {
         this.title = title;
