@@ -46,6 +46,11 @@ public class Book extends BaseEntity {
         this.deletedAt = now;
     }
 
+    public void borrowBook(LoanStatus loanStatus) {
+        this.loanStatus = loanStatus;
+        this.loanCount++;
+    }
+
     public void updateLoanStatus(LoanStatus loanStatus) {
         this.loanStatus = loanStatus;
     }

@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -68,8 +69,7 @@ public class BookController {
             @RequestParam("size") int size,
             @RequestParam("sort-by")SortByType sortBy
     ) {
-        Slice<GetBookHttpResponse> books = bookService.searchBooksByAuthor(author, tagId, page, size, sortBy);
-        return ResponseEntity.ok(books);
+        return ResponseEntity.ok().body(bookService.searchBooksByAuthor(author, tagId, page, size, sortBy));
     }
 
     @Operation(summary = "제목으로 도서 검색")
@@ -81,8 +81,7 @@ public class BookController {
             @RequestParam("size") int size,
             @RequestParam("sort-by")SortByType sortBy
     ) {
-        Slice<GetBookHttpResponse> books = bookService.searchBooksByTitle(title, tagId, page, size, sortBy);
-        return ResponseEntity.ok(books);
+        return ResponseEntity.ok().body(bookService.searchBooksByTitle(title, tagId, page, size, sortBy));
     }
 
     @Operation(summary = "도서에 태그 추가")
@@ -90,6 +89,12 @@ public class BookController {
     public ResponseEntity<HttpStatus> addTagToBook(@Valid @RequestBody AddTagToBookHttpRequest request) {
         bookService.addTagBook(request.getTagId(), request.getBookId());
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "베스트 셀러")
+    @GetMapping("/v1/books/best-seller")
+    public ResponseEntity<List<GetBookHttpResponse>> getBestSeller() {
+        return ResponseEntity.ok().body(bookService.getBestSeller());
     }
 
 }

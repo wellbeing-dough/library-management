@@ -23,6 +23,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +47,7 @@ public class BookService {
     public GetBookInfoHttpResponse getBookInfo(Long bookId) {
         Book book = bookReader.readById(bookId);
         return new GetBookInfoHttpResponse(book.getId(), book.getTitle(), book.getAuthor(), book.getPublisher(),
-                book.getLoanStatus().getValue(), book.getPublishedAt());
+                book.getLoanStatus().getValue(), book.getLoanCount(), book.getPublishedAt());
     }
 
     @CacheEvict(value = "book", key = "#bookId", cacheManager = "bookInfoCacheManager")
@@ -81,5 +82,9 @@ public class BookService {
         Book book = bookReader.readById(bookId);
         bookTagValidator.isAlreadyExistsBookTag(tag, book);
         bookTagWriter.writeBookTag(tag, book);
+    }
+
+    public List<GetBookHttpResponse> getBestSeller() {
+
     }
 }
