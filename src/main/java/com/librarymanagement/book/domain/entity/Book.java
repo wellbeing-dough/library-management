@@ -28,6 +28,7 @@ public class Book extends BaseEntity {
     private String publisher;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "loan_status")
     private LoanStatus loanStatus;
 
     private LocalDateTime deletedAt;
