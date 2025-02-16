@@ -60,7 +60,6 @@ jobs:
           TZ: Asia/Seoul  # 시간대 설정을 한국으로 변경
         run: ./gradlew bootJar
         id: buildAndTests
-        continue-on-error: true
 
       - name: Archive test results if tests failed
         if: steps.buildAndTests.outcome == 'failure'
