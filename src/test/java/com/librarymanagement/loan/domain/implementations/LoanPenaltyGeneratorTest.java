@@ -39,7 +39,7 @@ class LoanPenaltyGeneratorTest {
         int penalty = penaltyGenerator.generateDelayPenalty(dueDate, returnDate);
 
         // Then: 2일 지연에 대해 2000원의 벌금이 부과된다
-        assertEquals(3000, penalty);
+        assertEquals(2000, penalty);
     }
 
     @Test
