@@ -106,7 +106,7 @@ public class BookService {
         }
     }
 
-    @Cacheable(value = "bestSeller", key = "'bestSeller'", cacheManager = "bestSellerCacheManager")
+//    @Cacheable(value = "bestSeller", key = "'bestSeller'", cacheManager = "bestSellerCacheManager")
     public GetBestSellerHttpResponse getBestSeller() {
         List<GetBookHttpResponse> bestSeller = bookReader.getBestSeller();
         return new GetBestSellerHttpResponse(bestSeller);
