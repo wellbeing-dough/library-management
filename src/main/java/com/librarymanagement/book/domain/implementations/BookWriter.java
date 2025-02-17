@@ -29,6 +29,7 @@ public class BookWriter {
                 .publisher(publisher)
                 .publishedAt(publishedAt)
                 .loanStatus(LoanStatus.AVAILABLE)
+                .loanCount(0L)
                 .build();
     }
 

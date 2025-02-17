@@ -8,6 +8,7 @@ import com.librarymanagement.loan.domain.implementations.*;
 import com.librarymanagement.user.domian.entity.User;
 import com.librarymanagement.user.domian.implementations.UserReader;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,6 +26,7 @@ public class LoanService {
     private final BookLoanManager bookLoanManager;
 
     @RedissonDistributedLock(hashKey = "'borrow'", field = "#bookId")
+    @CacheEvict(value = "book", key = "#bookId", cacheManager = "bookInfoCacheManager")
     public void borrowBook(Long bookId, Long userId) {
         User user = userReader.readById(userId);
         Book book = bookReader.readById(bookId);
@@ -33,6 +35,7 @@ public class LoanService {
         bookLoanManager.borrowBook(book, user, dueDate);
     }
 
+    @CacheEvict(value = "book", key = "#bookId", cacheManager = "bookInfoCacheManager")
     public Integer returnBook(Long bookId, Long userId) {
         User user = userReader.readById(userId);
         Book book = bookReader.readById(bookId);
