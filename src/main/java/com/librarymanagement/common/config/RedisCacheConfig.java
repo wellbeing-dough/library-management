@@ -30,8 +30,9 @@ public class RedisCacheConfig {
 
     private final RedisConnectionFactory redisConnectionFactory;
 
-    private static final Duration USER_INFO_EXPIRATION = Duration.ofMinutes(10);
+    private static final Duration USER_INFO_EXPIRATION = Duration.ofHours(1);
     private static final Duration BOOK_INFO_EXPIRATION = Duration.ofMinutes(10);
+    private static final Duration BEST_SELLER_INFO_EXPIRATION = Duration.ofDays(1);
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -67,7 +68,7 @@ public class RedisCacheConfig {
     @Bean
     public RedisCacheManager bestSellerCacheManager() {
         return RedisCacheManager.builder(redisConnectionFactory)
-                .cacheDefaults(createJsonCacheConfig(BOOK_INFO_EXPIRATION, GetBestSellerHttpResponse.class))
+                .cacheDefaults(createJsonCacheConfig(BEST_SELLER_INFO_EXPIRATION, GetBestSellerHttpResponse.class))
                 .build();
     }
 

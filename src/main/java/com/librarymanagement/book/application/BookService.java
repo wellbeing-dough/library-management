@@ -91,14 +91,13 @@ public class BookService {
         bookTagWriter.writeBookTag(tag, book);
     }
 
-    @Scheduled(cron = "0 0 4 * * *") // 매일 새벽 4시 0분에 실행
+    @Scheduled(cron = "0 0 4 * * *")
     public void refreshBestSellerCache() {
-        // 새 데이터를 가져와서 캐시에 바로 저장
         List<GetBookHttpResponse> bestSellerBooks = bookReader.getBestSeller();
 
         Cache bestSellerCache = cacheManager.getCache("bestSeller");
         if (bestSellerCache != null) {
-            bestSellerCache.put("bestSeller", bestSellerBooks); // 기존 데이터를 덮어씌움
+            bestSellerCache.put("bestSeller", bestSellerBooks);
         } else {
             throw new CacheOperationException(
                     ErrorCode.BEST_SELLER_CACHE_OPERATION_EXCEPTION,
